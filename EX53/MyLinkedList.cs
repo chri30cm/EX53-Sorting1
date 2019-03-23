@@ -8,23 +8,37 @@ public class MyLinkedList<T> : IEnumerable<T> where T : IComparable<T>
     {
         for (int i = 0; i < Count - 1; i++)
         {
-            Node postion = head;
+            Node position = head;
             for (int j = 0; j < (Count - 1) - i; j++)
             {
-                if (postion.Data.CompareTo(postion.Next.Data) > 0)
+                if (position.Data.CompareTo(position.Next.Data) > 0)
                 {
-                    Swap(postion);
+                    T temp = position.Data;
+                    position.Data = position.Next.Data;
+                    position.Next.Data = temp;
                 }
-                postion = postion.Next;
+                position = position.Next;
             }
         }
     }
-    void Swap(Node node)
+    public void Sort(IComparer<T> ic)
     {
-        T temp = node.Data;
-        node.Data = node.Next.Data;
-        node.Next.Data = temp;
+        for (int i = 0; i < Count - 1; i++)
+        {
+            Node position = head;
+            for (int j = 0; j < (Count - 1) - i; j++)
+            {
+                if (ic.Compare(position.Data, position.Next.Data) > 0)
+                {
+                    T temp = position.Data;
+                    position.Data = position.Next.Data;
+                    position.Next.Data = temp;
+                }
+                position = position.Next;
+            }
+        }
     }
+
     private class Node
     {
         public T Data { get; set; }
